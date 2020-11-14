@@ -40,27 +40,72 @@
          </div>
 
          <div v-if="activeTab" class="tab-content">
-            <div class="tab-content__questions">
+            <div  class="tab-content__questions">
                <h3>Вопросы по темам <span></span></h3>
-               <div class="tab-content__collapse">
-                  <p v-b-toggle.collapse-1>МегаФон ТВ</p>
-                  <b-collapse id="collapse-1">
-                     <div class="tab-content__collapse_qustion">
-                        – Что такое МегаФон ТВ?
-                     </div>
-                     <div class="tab-content__collapse_answer">
-                        МегаФон ТВ — это пакеты с новинками кино и сериалов, детскими, познавательными программами,
-                        новостями и спортом. Оформите подписку в приложении МегаФон ТВ и смотрите на ТВ-приставке, Smart
-                        TV, Android TV, в смартфоне, планшете и браузере
+               <div v-for="(question, index) in questions" :key="index" class="tab-content__collapse">
+                  <p v-b-toggle="'collapse' + index">
+                     {{ question.title }}
+                     <span class="toggle"></span>
+                  </p>
+                  <b-collapse :id="'collapse' + index">
+                     <div  v-for="(question, index) in question.question"
+                           :key="index"
+                           class="tab-content__collapse_qustion">
+                        <span v-b-toggle="'collapse-2-' + question.id">
+                           {{question.question}}
+                        </span>
+                        <div v-b-toggle="'collapse-2-' +  question.id" class="close-question"></div>
+                        <b-collapse :id="'collapse-2-' +  question.id" class="tab-content__collapse_answer">
+                           <span>
+                              {{ question.answer }}
+                           </span>
+                           <div v-if="!question.reviewSent" class="tab-content__collapse_asset">
+                              <span>Информация была полезной?</span>
+                              <span @click="question.reviewSent = !question.reviewSent">Да</span>
+                              <span @click="question.reviewSent = !question.reviewSent">Нет</span>
+                           </div>
+                           <div v-if="question.reviewSent" class="tab-content__collapse_asset">
+                              <span>Отзыв отправлен. Спасибо!</span>
+                           </div>
+                        </b-collapse>
                      </div>
                   </b-collapse>
+
                </div>
-
             </div>
-
          </div>
          <div v-if="!activeTab" class="tab-content">
-            <div class="tab-content__directions">Вопросы2</div>
+            <div class="tab-content__directions">
+               <div class="tab-content__questions">
+                  <div v-for="(instructions, index) in instructions"
+                       :key="index" class="tab-content__collapse">
+                     <p v-b-toggle="'collapse' + index">
+                         <span class="collapse__img">
+                           <img :src="require('./assets/img/' + instructions.img)" alt="img">
+                        </span>
+                        {{ instructions.title }}
+                        <span class="toggle"></span>
+                     </p>
+                     <b-collapse :id="'collapse' + index">
+                        <div class="tab-content__collapse_qustion">
+                           <a href="#">– Открыть инструкцию</a>
+                        </div>
+                        <div class="tab-content__collapse_qustion">
+                           <span>
+                              <a href="#">– Скачать</a>
+                              <span>(PDF, 0.4 MB)</span>
+                           </span>
+                        </div>
+                     </b-collapse>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <div class="copyright">
+            6+© 2020 ПАО «МегаФон»<br>
+            Продолжая использовать наш сайт, вы даете согласие на обработку файлов Cookies и
+            других пользовательских данных, в соответствии с <a href="#">Политикой конфиденциальности.</a>
          </div>
       </div>
    </div>
@@ -77,7 +122,82 @@ export default {
 
    data() {
       return {
-         activeTab: true
+         activeTab: true,
+         reviewSent: false,
+         questions: [
+            {
+               title: 'МегаФон ТВ',
+               question: [
+                  {
+                     id: 1,
+                     question: '– Что такое МегаФон ТВ?',
+                     answer: 'МегаФон ТВ — это пакеты с новинками кино и сериалов, детскими, познавательными программами, новостями и спортом. Оформите подписку в приложении МегаФон ТВ и смотрите на ТВ-приставке, Smart TV, Android TV, в смартфоне, планшете и браузере',
+                     reviewSent: null
+                  },
+                  {
+                     id: 2,
+                     question: '– Как зарегистрироваться в Мегафон ТВ?',
+                     answer: 'МегаФон ТВ — это пакеты с новинками кино и сериалов, детскими, познавательными программами, новостями и спортом. Оформите подписку в приложении МегаФон ТВ и смотрите на ТВ-приставке, Smart TV, Android TV, в смартфоне, планшете и браузере',
+                     reviewSent: null
+                  },
+                  {
+                     id: 3,
+                     question: '– Где скачать приложение Мегафон ТВ?',
+                     answer: 'МегаФон ТВ — это пакеты с новинками кино и сериалов, детскими, познавательными программами, новостями и спортом. Оформите подписку в приложении МегаФон ТВ и смотрите на ТВ-приставке, Smart TV, Android TV, в смартфоне, планшете и браузере',
+                     reviewSent: null
+                  },
+                  {
+                     id: 4,
+                     question: '– Как проверить баланс?',
+                     answer: 'МегаФон ТВ — это пакеты с новинками кино и сериалов, детскими, познавательными программами, новостями и спортом. Оформите подписку в приложении МегаФон ТВ и смотрите на ТВ-приставке, Smart TV, Android TV, в смартфоне, планшете и браузере',
+                     reviewSent: null
+                  },
+               ]
+            },
+            {
+               title: 'Домашний интернет',
+               question: [
+                  {
+                     id: 5,
+                     question: '– Что такое МегаФон ТВ?',
+                     answer: 'МегаФон ТВ — это пакеты с новинками кино и сериалов, детскими, познавательными программами, новостями и спортом. Оформите подписку в приложении МегаФон ТВ и смотрите на ТВ-приставке, Smart TV, Android TV, в смартфоне, планшете и браузере',
+                     reviewSent: null
+                  },
+                  {
+                     id: 6,
+                     question: '– Как зарегистрироваться в Мегафон ТВ?',
+                     answer: 'МегаФон ТВ — это пакеты с новинками кино и сериалов, детскими, познавательными программами, новостями и спортом. Оформите подписку в приложении МегаФон ТВ и смотрите на ТВ-приставке, Smart TV, Android TV, в смартфоне, планшете и браузере',
+                     reviewSent: null
+                  },
+                  {
+                     id: 7,
+                     question: '– Где скачать приложение Мегафон ТВ?',
+                     answer: 'МегаФон ТВ — это пакеты с новинками кино и сериалов, детскими, познавательными программами, новостями и спортом. Оформите подписку в приложении МегаФон ТВ и смотрите на ТВ-приставке, Smart TV, Android TV, в смартфоне, планшете и браузере',
+                     reviewSent: null
+                  },
+                  {
+                     id: 8,
+                     question: '– Как проверить баланс?',
+                     answer: 'МегаФон ТВ — это пакеты с новинками кино и сериалов, детскими, познавательными программами, новостями и спортом. Оформите подписку в приложении МегаФон ТВ и смотрите на ТВ-приставке, Smart TV, Android TV, в смартфоне, планшете и браузере',
+                     reviewSent: null
+                  },
+               ]
+            }
+         ],
+         instructions: [
+            {
+               img: 'img1.png',
+               title: 'Q5 MegaFon ТВ-приставка',
+            },
+            {
+               img: 'img2.png',
+               title: 'Роутер FR100-1',
+            },
+            {
+               img: 'img3.png',
+               title: 'Роутер FR1000-1',
+            },
+         ]
       }
    }
 }
@@ -208,7 +328,6 @@ h6 {
 .wrapper {
    max-width: 1070px;
    margin: 0 auto;
-   //border: 1px solid red;
 }
 
 header {
@@ -290,6 +409,7 @@ header {
 .tab-content {
    padding: 30px 40px;
    background-color: #fff;
+   margin-bottom: 52px;
 
    &__questions {
       h3 {
@@ -297,35 +417,152 @@ header {
          line-height: 56px;
          text-align: center;
          border-bottom: 1px solid #D9D9D9;
-         margin-bottom: 27px;
-
-         span {
-            background: #fff url() 0 0 no-repeat;
-         }
       }
 
       p {
          font-size: 19px;
-         margin-bottom: 28px;
+         padding: 28px 16px 28px 0;
+         margin: 0;
+         display: flex;
+         align-items: center;
+      }
+
+      .toggle {
+         display: block;
+         width: 20px;
+         height: 20px;
+         background: url('./assets/svg/downarrow_121316.svg') center / 13px no-repeat;
+         transition: .5s;
+         opacity: .7;
+         transform: rotateX(20deg);
+         margin-left: auto;
+      }
+
+      p.not-collapsed .toggle {
+         transform: rotateX(160deg);
+      }
+
+      .tab-content__collapse_qustion {
+         padding: 15px 16px;
+         position: relative;
+         z-index: 0;
       }
 
       .tab-content__collapse {
-         .card {
-            background-color: #F9F9F9;
-            padding: 15px 16px;
-            border: 0;
-            border-radius: 0;
+         border-bottom: 1px solid #D9D9D9;
+         padding: 0 15px;
+
+
+         .collapse.show {
+
+            .close-question {
+               width: 17px;
+               height: 17px;
+               background: url('./assets/svg/cross.svg') center / cover no-repeat;
+               position: absolute;
+               top: 15px;
+               right: 17px;
+               transition: .1s;
+               opacity: 0;
+               visibility: hidden;
+            }
+
+            &:last-child {
+               margin-bottom: 15px;
+            }
+
+
+            span.not-collapsed + .close-question {
+               opacity: .5;
+               visibility: visible;
+            }
+
+
+            span.not-collapsed:before {
+               content: '';
+               position: absolute;
+               width: 100%;
+               height: 100%;
+               top: 0;
+               left: 0;
+               z-index: -1;
+               background-color: #F9F9F9;
+            }
          }
 
          &_qustion {
-            color: #34AAF2;
-            line-height: 36px;
+            > span {
+               cursor: pointer;
+               color: #34AAF2;
+            }
          }
 
          &_answer {
             line-height: 20px;
+            padding: 0 14px;
+
+            > span {
+               display: inline-block;
+               margin: 15px 0 40px;
+
+            }
+
+            .tab-content__collapse_asset {
+               span {
+                  color: #34AAF2;
+                  cursor: pointer;
+
+                  &:nth-child(1) {
+                     color: #999999;
+                     margin-right: 24px;
+                     cursor: initial;
+                  }
+
+                  &:nth-child(2) {
+                     margin-right: 11px;
+                  }
+               }
+            }
          }
       }
+   }
+
+   &__directions {
+      border-top: 1px solid #D9D9D9;
+
+      .collapse__img {
+         display: block;
+         width: 62px;
+         margin-right: 30px;
+
+         img {
+            max-width: 100%;
+            max-height: 100%;
+         }
+      }
+
+      .tab-content__collapse_qustion {
+         a {
+            color: #34AAF2;
+            margin-right: 5px;
+         }
+
+         a + span {
+            color: #333333;
+            cursor: auto;
+         }
+      }
+   }
+}
+
+.copyright {
+   font-size: 12px;
+   line-height: 16px;
+   max-width: 548px;
+   margin-bottom: 25px;
+
+   a {
+      color: #34AAF2;
    }
 }
 
