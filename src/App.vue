@@ -3,8 +3,22 @@
 
       <header>
          <div class="wrapper">
-            <div class="header__logo"></div>
-            <h6 class="header__phone">8 800 55-00-001</h6>
+            <a href="#" class="header__logo"></a>
+            <h6 class="header__phone">
+               <a href="tel:8 800 55-00-001">8 800 55-00-001</a>
+            </h6>
+            <a class="header__phone-mobile" href="tel:8 800 55-00-001">
+               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                  <defs></defs>
+                  <g transform="translate(-4 -4)">
+                     <path class="a" d="M17,6V4A19,19,0,0,1,36,23H34A17,17,0,0,0,17,6Z"/>
+                     <path class="a" d="M17,18V16a7,7,0,0,1,7,7H22A5,5,0,0,0,17,18Z"/>
+                     <path class="a" d="M17,12V10A13,13,0,0,1,30,23H28A11,11,0,0,0,17,12Z"/>
+                     <path class="a"
+                           d="M21.48,36h1L26,32.44l-6.83-6.83-2.78,2.78a12.52,12.52,0,0,1-4.94-4.78l2.78-2.78L7.56,14,4,17.56v1A17.71,17.71,0,0,0,21.48,36ZM6,18.38l1.56-1.56,3.85,4L9,23.23l.33.65a14.79,14.79,0,0,0,6.79,6.63l.65.33,2.4-2.4,4,4L21.62,34h-.14A15.6,15.6,0,0,1,6,18.52Z"/>
+                  </g>
+               </svg>
+            </a>
          </div>
       </header>
 
@@ -12,35 +26,14 @@
          <div class="big-title">
             <h1>Помощь и обслуживание клиентов</h1>
          </div>
-         <!--         <Tabs />-->
-         <div class="tabs">
-            <div @click="activeTab = !activeTab" class="tabs__tab" :class="{active: activeTab}">
-               <svg xmlns="http://www.w3.org/2000/svg" width="29" height="24.379" viewBox="0 0 29 24.379">
-                  <defs></defs>
-                  <g transform="translate(-1 -3.596)">
-                     <path class="a" d="M19.9,20.56,18.43,19,17,20.38,19.45,23h.89l4.44-4.68-1.46-1.38Z"/>
-                     <path class="a"
-                           d="M28.43,22.61A8.291,8.291,0,0,0,18.7,11.58,8.358,8.358,0,1,0,2,12.33a8.25,8.25,0,0,0,.54,2.94L1,18l2,2.71,3.58-1a8.2,8.2,0,0,0,5.77.68,8.32,8.32,0,0,0,12.1,6.66l3.32.92L30,25.5ZM7.19,17.81l-.29-.17-3.09.78-.49-.65L4.76,15.3l-.18-.41A6.36,6.36,0,1,1,7.2,17.81ZM27,25.7l-2.84-.77-.36.21a6.32,6.32,0,0,1-9.51-5.46,8.35,8.35,0,0,0,4.28-6,6.33,6.33,0,0,1,7.84,8.55l-.18.41,1.17,2.55Z"/>
-                     <circle class="a" cx="1.1" cy="1.1" r="1.1" transform="translate(9.27 14.9)"/>
-                     <path class="a" d="M10.37,14H9.49V12h.87a1,1,0,1,0-1-1h-2a3,3,0,1,1,3,3Z"/>
-                  </g>
-               </svg>
-               Часто задаваемые вопросы
-            </div>
-            <div @click="activeTab = !activeTab" class="tabs__tab" :class="{active: !activeTab}">
-               <svg xmlns="http://www.w3.org/2000/svg" width="17" height="24" viewBox="0 0 17 24">
-                  <defs></defs>
-                  <rect class="a" width="7" height="2" transform="translate(4 5)"/>
-                  <rect class="a" width="8" height="2" transform="translate(4 9)"/>
-                  <rect class="a" width="4" height="2" transform="translate(4 13)"/>
-                  <path class="a" d="M17,13V0H0V24H17Zm-2,9H2V2H15V22Zm1.5,0h0"/>
-               </svg>
-               Инструкции
-            </div>
-         </div>
+         <Tabs
+            @clickQuestion="activeTab = true"
+            @clickInstruction="activeTab = false"
+         />
+         <MySelect @checkOptions="checkOptions"/>
 
          <div v-if="activeTab" class="tab-content">
-            <div  class="tab-content__questions">
+            <div class="tab-content__questions">
                <h3>Вопросы по темам <span></span></h3>
                <div v-for="(question, index) in questions" :key="index" class="tab-content__collapse">
                   <p v-b-toggle="'collapse' + index">
@@ -48,11 +41,11 @@
                      <span class="toggle"></span>
                   </p>
                   <b-collapse :id="'collapse' + index">
-                     <div  v-for="(question, index) in question.question"
-                           :key="index"
-                           class="tab-content__collapse_qustion">
+                     <div v-for="(question, index) in question.question"
+                          :key="index"
+                          class="tab-content__collapse_qustion">
                         <span v-b-toggle="'collapse-2-' + question.id">
-                           {{question.question}}
+                           {{ question.question }}
                         </span>
                         <div v-b-toggle="'collapse-2-' +  question.id" class="close-question"></div>
                         <b-collapse :id="'collapse-2-' +  question.id" class="tab-content__collapse_answer">
@@ -112,12 +105,14 @@
 </template>
 
 <script>
-// import Tabs from "@/components/Tabs";
+import Tabs from "@/components/Tabs";
+import MySelect from "@/components/MySelect";
 
 export default {
    name: 'App',
    components: {
-      // Tabs
+      Tabs,
+      MySelect
    },
 
    data() {
@@ -199,116 +194,21 @@ export default {
             },
          ]
       }
+   },
+   methods: {
+      checkOptions(option) {
+         option ? this.activeTab = false : this.activeTab = true
+      }
    }
 }
 </script>
 
 <style lang="scss">
-@import 'node_modules/bootstrap/scss/bootstrap.scss';
-@import 'node_modules/bootstrap-vue/src/index.scss';
-@import "./assets/fonts/Montserrat/stylesheet.css";
-@import "./assets/fonts/SourceSansPro/stylesheet.css";
-
-
-* {
-   padding: 0;
-   margin: 0;
-   border: 0;
-}
-
-
-*,
-*:before,
-*:after {
-   -webkit-box-sizing: border-box;
-   -moz-box-sizing: border-box;
-   box-sizing: border-box;
-}
-
-
-:focus,
-:active {
-   outline: none;
-}
-
-a:focus,
-a:active {
-   outline: none;
-}
-
-
-nav,
-footer,
-header,
-aside {
-   display: block;
-}
-
-
-html,
-body {
-   height: 100%;
-   width: 100%;
-   font-size: 100%;
-   line-height: 1;
-   font-size: 14px;
-   -ms-text-size-adjust: 100%;
-   -moz-text-size-adjust: 100%;
-   -webkit-text-size-adjust: 100%;
-}
-
-
-input,
-button,
-textarea {
-   font-family: inherit;
-}
-
-
-input::-ms-clear {
-   display: none;
-}
-
-button {
-   cursor: pointer;
-}
-
-button::-moz-focus-inner {
-   padding: 0;
-   border: 0;
-}
-
-a,
-a:visited {
-   text-decoration: none;
-   color: #333333;
-}
-
-a:hover {
-   text-decoration: none;
-}
-
-ul li {
-   list-style: none;
-}
-
-img {
-   vertical-align: top;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-   font-size: inherit;
-   font-weight: 400;
-   margin: 0;
-}
-
-// обнуление
-
+@import 'node_modules/bootstrap/scss/bootstrap.scss'; // bootstrap
+@import 'node_modules/bootstrap-vue/src/index.scss'; // bootstrap
+@import "./assets/fonts/Montserrat/stylesheet.css"; // шрифт
+@import "./assets/fonts/SourceSansPro/stylesheet.css"; // шрифт
+@import "./assets/scss/null.scss"; // обнуление
 
 body {
    font-family: 'Source Sans Pro', sans-serif;
@@ -326,8 +226,9 @@ h6 {
 }
 
 .wrapper {
-   max-width: 1070px;
+   max-width: 1100px;
    margin: 0 auto;
+   padding: 0 15px;
 }
 
 header {
@@ -349,6 +250,15 @@ header {
       background: url('./assets/svg/mf_logo_full.svg') center / contain no-repeat;
       fill: black;
    }
+
+   .header__phone a:hover {
+      color: inherit;
+   }
+
+   a.header__phone-mobile {
+      display: none;
+   }
+
 }
 
 .big-title {
@@ -364,48 +274,6 @@ header {
    }
 }
 
-.tabs {
-   font-size: 20px;
-   display: flex;
-   margin-bottom: 40px;
-
-   div:first-child {
-      border-right: 1px solid #D9D9D9;
-   }
-
-   div:last-child {
-      border-left: 1px solid #D9D9D9;
-   }
-
-   .tabs__tab {
-      width: 50%;
-      background-color: #fff;
-      height: 96px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-bottom: 4px solid transparent;
-      transition: .3s;
-      cursor: pointer;
-
-      svg {
-         fill: #333333;
-         margin-right: 20px;
-         transition: .3s;
-      }
-   }
-
-   .tabs__tab.active {
-      color: #00B956;
-      border-bottom: 4px solid #00B956;
-
-      svg {
-         fill: #00B956;
-      }
-   }
-
-}
-
 .tab-content {
    padding: 30px 40px;
    background-color: #fff;
@@ -417,6 +285,7 @@ header {
          line-height: 56px;
          text-align: center;
          border-bottom: 1px solid #D9D9D9;
+         margin-bottom: 5px;
       }
 
       p {
@@ -425,6 +294,7 @@ header {
          margin: 0;
          display: flex;
          align-items: center;
+         height: 79px;
       }
 
       .toggle {
@@ -452,7 +322,6 @@ header {
          border-bottom: 1px solid #D9D9D9;
          padding: 0 15px;
 
-
          .collapse.show {
 
             .close-question {
@@ -476,7 +345,6 @@ header {
                opacity: .5;
                visibility: visible;
             }
-
 
             span.not-collapsed:before {
                content: '';
@@ -533,11 +401,12 @@ header {
       .collapse__img {
          display: block;
          width: 62px;
+         text-align: center;
          margin-right: 30px;
 
          img {
-            max-width: 100%;
-            max-height: 100%;
+            max-width: 62px;
+            max-height: 45px;
          }
       }
 
@@ -563,6 +432,139 @@ header {
 
    a {
       color: #34AAF2;
+   }
+}
+
+
+@media (max-width: 767px) {
+   header {
+      margin-bottom: 21px;
+
+      .wrapper {
+         height: 64px;
+      }
+
+      .header__logo {
+         max-height: 24px;
+         max-width: 135px;
+      }
+
+      h6 {
+         display: none;
+      }
+
+      a.header__phone-mobile {
+         display: block;
+         width: 32px;
+         height: 32px;
+         margin-right: 18px;
+
+         svg {
+            display: block;
+         }
+      }
+
+   }
+
+   .big-title {
+      padding: 0;
+      margin-bottom: 22px;
+
+      h1 {
+         font-size: 30px;
+         line-height: 36px;
+         font-weight: 900;
+         color: #00B956;
+      }
+   }
+
+   .tab-content {
+      background-color: transparent;
+      padding: 0;
+
+      &__questions {
+
+         h3 {
+            font-size: 19px;
+            line-height: 23px;
+            border-bottom: 0;
+            margin-bottom: 13px;
+         }
+
+         .tab-content__collapse {
+            background-color: #fff;
+            padding: 0;
+
+            &:last-child {
+               border-bottom: 1px solid transparent;
+            }
+
+            > .collapse {
+               padding: 0 8px;
+
+               .collapse {
+                  margin-bottom: 0 !important;
+               }
+            }
+         }
+
+         p {
+            font-size: 16px;
+            padding: 0 20px 0 15px;
+            margin: 0;
+            height: 61px;
+         }
+
+         .tab-content__collapse_answer {
+            padding: 0 11px;
+         }
+
+         .tab-content__collapse_asset {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+
+            span {
+               line-height: 18px;
+               margin-bottom: 7px;
+            }
+
+            span:nth-child(1) {
+               width: 100%;
+               text-align: center;
+               margin-right: 0 !important;
+            }
+
+            span:nth-child(2) {
+               margin-right: 56px !important;
+            }
+
+         }
+
+         .tab-content__collapse_qustion > span {
+            line-height: 18px;
+            padding-right: 20px;
+            display: inline-block;
+         }
+      }
+
+      &__directions {
+         border: 0;
+
+         .collapse__img {
+            width: 36px;
+            margin-right: 13px;
+
+            img {
+               max-width: 36px;
+               max-height: 30px;
+            }
+         }
+      }
+   }
+
+   .copyright {
+      margin-bottom: 35px;
    }
 }
 
