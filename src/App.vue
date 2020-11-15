@@ -44,23 +44,26 @@
                      <div v-for="(question, index) in question.question"
                           :key="index"
                           class="tab-content__collapse_qustion">
-                        <span v-b-toggle="'collapse-2-' + question.id">
-                           {{ question.question }}
-                        </span>
-                        <div v-b-toggle="'collapse-2-' +  question.id" class="close-question"></div>
-                        <b-collapse :id="'collapse-2-' +  question.id" class="tab-content__collapse_answer">
+                        <div>
+                           <span v-b-toggle="'collapse-2-' + question.id">
+                              {{ question.question }}
+                           </span>
+                           <div v-b-toggle="'collapse-2-' +  question.id" class="close-question"></div>
+                           <b-collapse :id="'collapse-2-' +  question.id" class="tab-content__collapse_answer">
                            <span>
                               {{ question.answer }}
                            </span>
-                           <div v-if="!question.reviewSent" class="tab-content__collapse_asset">
-                              <span>Информация была полезной?</span>
-                              <span @click="question.reviewSent = !question.reviewSent">Да</span>
-                              <span @click="question.reviewSent = !question.reviewSent">Нет</span>
-                           </div>
-                           <div v-if="question.reviewSent" class="tab-content__collapse_asset">
-                              <span>Отзыв отправлен. Спасибо!</span>
-                           </div>
-                        </b-collapse>
+                              <div v-if="!question.reviewSent" class="tab-content__collapse_asset">
+                                 <span>Информация была полезной?</span>
+                                 <span @click="question.reviewSent = !question.reviewSent">Да</span>
+                                 <span @click="question.reviewSent = !question.reviewSent">Нет</span>
+                              </div>
+                              <div v-if="question.reviewSent" class="tab-content__collapse_asset">
+                                 <span>Отзыв отправлен. Спасибо!</span>
+                              </div>
+                           </b-collapse>
+                        </div>
+
                      </div>
                   </b-collapse>
 
@@ -204,10 +207,14 @@ export default {
 </script>
 
 <style lang="scss">
-@import 'node_modules/bootstrap/scss/bootstrap.scss'; // bootstrap
-@import 'node_modules/bootstrap-vue/src/index.scss'; // bootstrap
-@import "./assets/fonts/Montserrat/stylesheet.css"; // шрифт
-@import "./assets/fonts/SourceSansPro/stylesheet.css"; // шрифт
+@import 'node_modules/bootstrap/scss/bootstrap.scss';
+// bootstrap
+@import 'node_modules/bootstrap-vue/src/index.scss';
+// bootstrap
+@import "./assets/fonts/Montserrat/stylesheet.css";
+// шрифт
+@import "./assets/fonts/SourceSansPro/stylesheet.css";
+// шрифт
 @import "./assets/scss/null.scss"; // обнуление
 
 body {
@@ -313,9 +320,17 @@ header {
       }
 
       .tab-content__collapse_qustion {
-         padding: 15px 16px;
          position: relative;
          z-index: 0;
+
+         > div {
+            padding: 15px 16px;
+
+            > span {
+               cursor: pointer;
+               color: #34AAF2;
+            }
+         }
       }
 
       .tab-content__collapse {
@@ -340,7 +355,6 @@ header {
                margin-bottom: 15px;
             }
 
-
             span.not-collapsed + .close-question {
                opacity: .5;
                visibility: visible;
@@ -350,18 +364,11 @@ header {
                content: '';
                position: absolute;
                width: 100%;
-               height: 100%;
+               height: calc(100% - 15px);
                top: 0;
                left: 0;
                z-index: -1;
                background-color: #F9F9F9;
-            }
-         }
-
-         &_qustion {
-            > span {
-               cursor: pointer;
-               color: #34AAF2;
             }
          }
 
@@ -411,6 +418,8 @@ header {
       }
 
       .tab-content__collapse_qustion {
+         padding: 15px 16px;
+
          a {
             color: #34AAF2;
             margin-right: 5px;
@@ -523,6 +532,7 @@ header {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
+            padding-bottom: 15px;
 
             span {
                line-height: 18px;

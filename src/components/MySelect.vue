@@ -29,7 +29,7 @@
          Инструкции
       </div>
 
-      <input name="test" type="radio" id="question" :value="true" v-model="selected">
+      <input name="select" type="radio" id="question" :value="true" v-model="selected">
       <label :class="{open: !selected && openSelect}" for="question">
          <div
             @click="checkOptions"
@@ -48,7 +48,7 @@
          </div>
       </label>
 
-      <input name="test" type="radio" id="instructions" :value="false" v-model="selected">
+      <input name="select" type="radio" id="instructions" :value="false" v-model="selected">
       <label :class="{open: selected && openSelect}" for="instructions">
          <div
             @click="checkOptions"
