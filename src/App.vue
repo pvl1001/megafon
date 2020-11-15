@@ -327,8 +327,11 @@ header {
             padding: 15px 16px;
 
             > span {
+               display: inline-block;
                cursor: pointer;
                color: #34AAF2;
+               line-height: 18px;
+               padding-right: 20px;
             }
          }
       }
