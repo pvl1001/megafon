@@ -43,7 +43,7 @@
                   <b-collapse :id="'collapse' + index">
                      <div v-for="(question, index) in question.question"
                           :key="index"
-                          class="tab-content__collapse_qustion">
+                          class="tab-content__collapse_question">
                         <div>
                            <span v-b-toggle="'collapse-2-' + question.id">
                               {{ question.question }}
@@ -83,10 +83,10 @@
                         <span class="toggle"></span>
                      </p>
                      <b-collapse :id="'collapse' + index">
-                        <div class="tab-content__collapse_qustion">
+                        <div class="tab-content__collapse_question">
                            <a href="#">– Открыть инструкцию</a>
                         </div>
-                        <div class="tab-content__collapse_qustion">
+                        <div class="tab-content__collapse_question">
                            <span>
                               <a href="#">– Скачать</a>
                               <span>(PDF, 0.4 MB)</span>
@@ -271,7 +271,7 @@ header {
 .big-title {
    text-align: center;
    padding: 0 30px;
-   margin-bottom: 42px;
+   margin-bottom: 50px;
 
    h1 {
       font-size: 52px;
@@ -289,7 +289,7 @@ header {
    &__questions {
       h3 {
          font-size: 24px;
-         line-height: 56px;
+         line-height: 69px;
          text-align: center;
          border-bottom: 1px solid #D9D9D9;
          margin-bottom: 5px;
@@ -319,7 +319,7 @@ header {
          transform: rotateX(160deg);
       }
 
-      .tab-content__collapse_qustion {
+      .tab-content__collapse_question {
          position: relative;
          z-index: 0;
 
@@ -420,7 +420,7 @@ header {
          }
       }
 
-      .tab-content__collapse_qustion {
+      .tab-content__collapse_question {
          padding: 15px 16px;
 
          a {
@@ -554,7 +554,7 @@ header {
 
          }
 
-         .tab-content__collapse_qustion > span {
+         .tab-content__collapse_question > span {
             line-height: 18px;
             padding-right: 20px;
             display: inline-block;
