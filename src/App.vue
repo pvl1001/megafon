@@ -258,6 +258,10 @@ header {
       fill: black;
    }
 
+   .header__phone a {
+      font-weight: 500;
+   }
+
    .header__phone a:hover {
       color: inherit;
    }
