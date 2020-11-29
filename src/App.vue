@@ -22,161 +22,318 @@
          </div>
       </header>
 
-      <div class="wrapper">
+      <section class="section-1">
          <div class="big-title">
-            <h1>Помощь и обслуживание клиентов</h1>
-         </div>
-         <Tabs
-            @clickQuestion="activeTab = true"
-            @clickInstruction="activeTab = false"
-         />
-         <MySelect @checkOptions="checkOptions"/>
-
-         <div v-if="activeTab" class="tab-content">
-            <div class="tab-content__questions">
-               <h3>Вопросы по темам <span></span></h3>
-               <div v-for="(question, index) in questions" :key="index" class="tab-content__collapse">
-                  <p v-b-toggle="'collapse' + index">
-                     {{ question.title }}
-                     <span class="toggle"></span>
-                  </p>
-                  <b-collapse :id="'collapse' + index">
-                     <div v-for="(question, index) in question.question"
-                          :key="index"
-                          class="tab-content__collapse_question">
-                        <div>
-                           <span v-b-toggle="'collapse-2-' + question.id">
-                              {{ question.question }}
-                           </span>
-                           <div v-b-toggle="'collapse-2-' +  question.id" class="close-question"></div>
-                           <b-collapse :id="'collapse-2-' +  question.id" class="tab-content__collapse_answer">
-                           <span>
-                              {{ question.answer }}
-                           </span>
-                              <div v-if="!question.reviewSent" class="tab-content__collapse_asset">
-                                 <span>Информация была полезной?</span>
-                                 <span @click="question.reviewSent = !question.reviewSent">Да</span>
-                                 <span @click="question.reviewSent = !question.reviewSent">Нет</span>
-                              </div>
-                              <div v-if="question.reviewSent" class="tab-content__collapse_asset">
-                                 <span>Отзыв отправлен. Спасибо!</span>
-                              </div>
-                           </b-collapse>
-                        </div>
-
-                     </div>
-                  </b-collapse>
-
-               </div>
+            <div class="wrapper">
+               <h1>Помощь и обслуживание клиентов</h1>
+               <Tabs
+                  @clickQuestion="activeTab = true"
+                  @clickInstruction="activeTab = false"
+               />
             </div>
          </div>
-         <div v-if="!activeTab" class="tab-content">
-            <div class="tab-content__directions">
-               <div class="tab-content__questions">
-                  <div v-for="(instructions, index) in instructions"
-                       :key="index" class="tab-content__collapse">
-                     <p v-b-toggle="'collapse' + index">
+         <div class="wrapper">
+            <div v-if="activeTab" class="FAQ">
+               <h2>Вопросы по темам</h2>
+               <div class="tab-content">
+                  <div class="tab-content__questions">
+                     <div v-for="(question, index) in questions" :key="index" class="tab-content__collapse">
+                        <p v-b-toggle="'collapseFAQ' + index">
+                           {{ question.title }}
+                           <span class="toggle"></span>
+                        </p>
+                        <b-collapse :id="'collapseFAQ' + index">
+                           <div v-for="(question, index) in question.question"
+                                :key="index"
+                                class="tab-content__collapse_question">
+                              <div>
+                                 <span v-b-toggle="'collapseFAQ-2-' + question.id">
+                                 {{ question.question }}
+                              </span>
+                                 <div class="btns-question">
+                                    <div class="btns-question__share">
+                                       <div @click="clickCopy(question.id)"
+                                            class="btns-question__share_copy">
+                                          Копировать ссылку
+                                       </div>
+                                    </div>
+                                    <div v-b-toggle="'collapseFAQ-2-' + question.id" class="btns-question__close"></div>
+                                 </div>
+                                 <b-collapse :id="'collapseFAQ-2-' +  question.id" class="tab-content__collapse_answer">
+                                    <span v-html="question.answer"></span>
+                                    <div v-if="!question.reviewSent" class="tab-content__collapse_asset">
+                                       <span>Информация была полезной?</span>
+                                       <span @click="question.reviewSent = !question.reviewSent">Да</span>
+                                       <span @click="question.reviewSent = !question.reviewSent">Нет</span>
+                                    </div>
+                                    <div v-if="question.reviewSent" class="tab-content__collapse_asset">
+                                       <span>Отзыв отправлен. Спасибо!</span>
+                                    </div>
+                                 </b-collapse>
+                              </div>
+
+                           </div>
+                        </b-collapse>
+                     </div>
+                  </div>
+               </div>
+               <div :class="{ show: showMessCopy }" class="copyMessage">Ссылка скопирована в буфер обмена</div>
+            </div>
+            <div v-if="!activeTab" class="tab-content">
+               <div class="tab-content__directions">
+                  <div class="tab-content__questions">
+                     <div v-for="(instructions, index) in instructions"
+                          :key="index" class="tab-content__collapse">
+                        <p v-b-toggle="'collapse' + index">
                          <span class="collapse__img">
                            <img :src="require('./assets/img/' + instructions.img)" alt="img">
                         </span>
-                        {{ instructions.title }}
-                        <span class="toggle"></span>
-                     </p>
-                     <b-collapse :id="'collapse' + index">
-                        <div class="tab-content__collapse_question">
-                           <a href="#">– Открыть инструкцию</a>
-                        </div>
-                        <div class="tab-content__collapse_question">
+                           {{ instructions.title }}
+                           <span class="toggle"></span>
+                        </p>
+                        <b-collapse :id="'collapse' + index">
+                           <div class="tab-content__collapse_question">
+                              <a href="#">– Открыть инструкцию</a>
+                           </div>
+                           <div class="tab-content__collapse_question">
                            <span>
                               <a href="#">– Скачать</a>
                               <span>(PDF, 0.4 MB)</span>
                            </span>
-                        </div>
-                     </b-collapse>
+                           </div>
+                        </b-collapse>
+                     </div>
                   </div>
                </div>
             </div>
-         </div>
 
-         <div class="copyright">
-            6+© 2020 ПАО «МегаФон»<br>
-            Продолжая использовать наш сайт, вы даете согласие на обработку файлов Cookies и
-            других пользовательских данных, в соответствии с <a href="#">Политикой конфиденциальности.</a>
+            <div class="supports">
+               <h2>Не нашли что искали?</h2>
+               <div class="supports__block">
+                  <a href="#">Онлайн-чат с поддержкой</a>
+               </div>
+            </div>
+
+            <div class="copyright">
+               6+© 2020 ПАО «МегаФон»<br>
+               Продолжая использовать наш сайт, вы даете согласие на обработку файлов Cookies и
+               других пользовательских данных, в соответствии с <a href="#">Политикой конфиденциальности.</a>
+            </div>
          </div>
-      </div>
+      </section>
+
    </div>
 </template>
 
 <script>
 import Tabs from "@/components/Tabs";
-import MySelect from "@/components/MySelect";
 
 export default {
    name: 'App',
    components: {
       Tabs,
-      MySelect
    },
 
    data() {
       return {
+         closePlaceCopy: [],
+         showMessCopy: false,
          activeTab: true,
          reviewSent: false,
          questions: [
             {
-               title: 'МегаФон ТВ',
+               title: 'Оплата, баланс, счет',
                question: [
                   {
                      id: 1,
-                     question: '– Что такое МегаФон ТВ?',
-                     answer: 'МегаФон ТВ — это пакеты с новинками кино и сериалов, детскими, познавательными программами, новостями и спортом. Оформите подписку в приложении МегаФон ТВ и смотрите на ТВ-приставке, Smart TV, Android TV, в смартфоне, планшете и браузере',
+                     question: 'Как узнать свой лицевой счет?',
+                     answer: 'Номер телефона — это ваш лицевой счёт. С его помощью можно оплатить услуги, войти в личный кабинет и в МегаФон ТВ. ',
                      reviewSent: null
                   },
                   {
                      id: 2,
-                     question: '– Как зарегистрироваться в Мегафон ТВ?',
-                     answer: 'МегаФон ТВ — это пакеты с новинками кино и сериалов, детскими, познавательными программами, новостями и спортом. Оформите подписку в приложении МегаФон ТВ и смотрите на ТВ-приставке, Smart TV, Android TV, в смартфоне, планшете и браузере',
+                     question: 'Как проверить баланс?',
+                     answer: 'Проверить баланс можно в голосовом меню с помощью USSD команды *100# или в личном кабинете. ',
                      reviewSent: null
                   },
                   {
                      id: 3,
-                     question: '– Где скачать приложение Мегафон ТВ?',
-                     answer: 'МегаФон ТВ — это пакеты с новинками кино и сериалов, детскими, познавательными программами, новостями и спортом. Оформите подписку в приложении МегаФон ТВ и смотрите на ТВ-приставке, Smart TV, Android TV, в смартфоне, планшете и браузере',
+                     question: 'Как пополнить баланс?',
+                     answer: 'Пополнить баланс можно несколькими способами: <br>1. В Личном кабинете: банковской картой, электронным кошельком, по номер у телефона.<br>' +
+                        '2. В приложении Сбербанк-онлайн, раздел «Платеж или перевод». Найдите в списке платежей «Интернет и ТВ», укажите поставщика услуг МегаФон, введите номер лицевого счёта и сумму оплаты.<br>' +
+                        '3. Наличными через терминалы оплаты: Qiwi, CyberPlat или Элексент, банкоматы Сбербанка России и Московского кредитного банка или пункты приема платежей: Мегафон Ритейл, Связной',
                      reviewSent: null
                   },
                   {
                      id: 4,
-                     question: '– Как проверить баланс?',
-                     answer: 'МегаФон ТВ — это пакеты с новинками кино и сериалов, детскими, познавательными программами, новостями и спортом. Оформите подписку в приложении МегаФон ТВ и смотрите на ТВ-приставке, Smart TV, Android TV, в смартфоне, планшете и браузере',
+                     question: 'Что такое автоплатеж и как его подключить?',
+                     answer: 'Автоплатеж - это сервис, позволяющий настроить автоматическое пополнение счета с вашей банковской карты. Его можно подключить в личном кабинете. \n' +
+                        'Данные карты защищены, а переводы зашифрованы, поэтому это совершенно безопасно. Вы сами выбираете, когда и на какую сумму пополнять счёт, и в любой момент можете изменить настройки.\n' +
+                        'Дата списания абонентской платы соответствует дате подключения тарифа.',
                      reviewSent: null
                   },
                ]
             },
             {
-               title: 'Домашний интернет',
+               title: 'Мегафон ТВ',
                question: [
                   {
                      id: 5,
-                     question: '– Что такое МегаФон ТВ?',
-                     answer: 'МегаФон ТВ — это пакеты с новинками кино и сериалов, детскими, познавательными программами, новостями и спортом. Оформите подписку в приложении МегаФон ТВ и смотрите на ТВ-приставке, Smart TV, Android TV, в смартфоне, планшете и браузере',
+                     question: '– Что такое Мегафон ТВ?',
+                     answer: 'Мегафон ТВ - это онлайн-кинотеатр, который уже доступен в вашем тарифе (кроме тарифов #ДляДомаИнтернет, и Объединяй!Два Интернета).',
                      reviewSent: null
                   },
                   {
                      id: 6,
-                     question: '– Как зарегистрироваться в Мегафон ТВ?',
-                     answer: 'МегаФон ТВ — это пакеты с новинками кино и сериалов, детскими, познавательными программами, новостями и спортом. Оформите подписку в приложении МегаФон ТВ и смотрите на ТВ-приставке, Smart TV, Android TV, в смартфоне, планшете и браузере',
+                     question: '- Как зарегистрироваться?',
+                     answer: 'Введите номер телефона в сервисе Мегафон ТВ, задайте числовой пароль и введите код подтверждения, полученный в SMS. Логин – ваш номер телефона',
                      reviewSent: null
                   },
                   {
                      id: 7,
-                     question: '– Где скачать приложение Мегафон ТВ?',
-                     answer: 'МегаФон ТВ — это пакеты с новинками кино и сериалов, детскими, познавательными программами, новостями и спортом. Оформите подписку в приложении МегаФон ТВ и смотрите на ТВ-приставке, Smart TV, Android TV, в смартфоне, планшете и браузере',
+                     question: '- Где смотреть?',
+                     answer: 'Сервисом Мегафон ТВ можно воспользоваться на ТВ-приставке, Smart TV, Android TV, в смартфоне, планшете и браузере, для этого нужно скачать приложение в официальных магазинах ваших устройств. Если телевизор не поддерживает функцию Smart TV или поддерживает, но вы захотите подключить ещё один, понадобится дополнительная приставка. Чтобы её заказать, звоните нам: 8 800 550-00-01',
+                     reviewSent: null
+                  }
+               ]
+            },
+            {
+               title: 'Добровольная блокировка',
+               question: [
+                  {
+                     id: 8,
+                     question: '- Что такое добровольная блокировка и как ее подключить?',
+                     answer: '',
+                     reviewSent: null
+                  }
+               ]
+            },
+            {
+               title: 'Вопросы по работе интернета',
+               question: [
+                  {
+                     id: 9,
+                     question: '- Что делать, если не работает интернет?',
+                     answer: 'Перед обращением в техническую поддержку, пожалуйста, проделайте следующие действия:<br>' +
+                        '1) перезагрузите оборудование<br>' +
+                        '2) проверьте баланс (ссылка на вход в веб лк)<br>' +
+                        '3) проверьте целостность кабеля, коннектора<br>' +
+                        '4) убедитесь, что интернет-кабель подключен к роутеру',
                      reviewSent: null
                   },
                   {
-                     id: 8,
-                     question: '– Как проверить баланс?',
-                     answer: 'МегаФон ТВ — это пакеты с новинками кино и сериалов, детскими, познавательными программами, новостями и спортом. Оформите подписку в приложении МегаФон ТВ и смотрите на ТВ-приставке, Smart TV, Android TV, в смартфоне, планшете и браузере',
+                     id: 10,
+                     question: '- Правда, что для роутера нужно правильно выбрать место?',
+                     answer: 'Стены дома или квартиры существенно ухудшают Wi-Fi сигнал, поэтому чем ближе роутер к устройству, тем лучше качество соединения. Советуем установить устройство в центре квартиры, это увеличит площадь покрытия Wi-Fi.',
+                     reviewSent: null
+                  },
+                  {
+                     id: 11,
+                     question: '- Что делать при низкой скорости или помехах?',
+                     answer: 'Скорость может снизиться по одной из следующих причин:<br>' +
+                        '- устаревшее/неподходящее оборудование <br>' +
+                        '- неправильное расположение роутера <br>' +
+                        '- работа другой программы, загружающей интернет-канал (например, Торрент)<br>' +
+                        '- наличие вредоносного ПО на компьютере<br>' +
+                        '- работа программ защиты<br>' +
+                        '- ограничения по скорости на сервере или перегруженность сервера<br>' +
+                        '<br>' +
+                        'Что может помочь:<br>' +
+                        '- убедитесь, что пропускная способность роутера подходит для вашего тарифа<br>' +
+                        '- расположите роутер ближе, устраните преграды<br>' +
+                        '- перезагрузите роутер или подключитесь напрямую<br>' +
+                        '- если доступно 2 подключения, переключитесь с 2.4 ГГц на частоту 5 ГГц<br>' +
+                        '- выключите другие программы, использующие интернет-канал, и <a href="#">проверьте скорость</a> заново<br>' +
+                        '- проверьте наличие вредоносного ПО с помощью антивируса<br>' +
+                        '- временно отключите программу защиты (firewall, антивирусы и т.п.) и <a href="#">проверьте скорость</a>',
+                     reviewSent: null
+                  },
+                  {
+                     id: 12,
+                     question: '- Что необходимо при обращении в ТП?',
+                     answer: '1) Находиться возле оборудования<br> ' +
+                        '2) Назвать адрес подключения/номер договора<br> ' +
+                        '3) Назвать код ошибки или надпись на экране или прислать скриншот<br> ' +
+                        '4) Сообщить, если у вас уже есть зафиксированное обращение по данному вопросу<br> ' +
+                        '5) Описать действия, которые вы уже предприняли и их результат',
+                     reviewSent: null
+                  },
+                  {
+                     id: 13,
+                     question: '- Как настроить интернет-соединение?',
+                     answer: 'Для подключения интернет-соединения напрямую воспользуйтесь нашими инструкциями (ссылка на раздел с инструкцией по подключению напрямую)',
+                     reviewSent: null
+                  },
+               ]
+            },
+            {
+               title: 'Перезд вместе с нами',
+               question: [
+                  {
+                     id: 14,
+                     question: '- Как переехать без потери интернета?',
+                     answer: '',
+                     reviewSent: null
+                  },
+               ]
+            },
+            {
+               title: 'Статический IP адрес',
+               question: [
+                  {
+                     id: 15,
+                     question: '- Что такое статический IP адрес?',
+                     answer: 'Это постоянный IP-адрес, закрепленный на время пользования услуги.  С ним у вас будет удаленный доступ к закрытым ресурсам сети, вы сможете организовывать собственные игровые и web серверы и играть в многопользовательские игры. Услуга включена в стоимость тарифа.',
+                     reviewSent: null
+                  },
+               ]
+            },
+            {
+               title: 'Обрудование',
+               question: [
+                  {
+                     id: 16,
+                     question: '- Как выбрать оборудование?',
+                     answer: 'Важно помнить, что скорость домашнего интернета зависит от пропускной способности роутера.<br>' +
+                        'Например, для тарифов со скоростью 100 Мбит/с не подойдет роутер с пропускной способностью до 100 Мбит/с. Также не рекомендуем пользоваться устаревшими моделями.<br>' +
+                        '<br>' +
+                        'Для домашнего интернета вы можете использовать свой роутер, но для стабильности сигнала мы рекомендуем пользоваться роутером, который предлагается в выбранном тарифе',
+                     reviewSent: null
+                  },
+               ]
+            },
+            {
+               title: 'Увеличение скорости интернета',
+               question: [
+                  {
+                     id: 16,
+                     question: '- Как увеличить скорость интернета?',
+                     answer: '',
+                     reviewSent: null
+                  },
+               ]
+            },
+            {
+               title: 'Антивирус',
+               question: [
+                  {
+                     id: 17,
+                     question: '- Как подключить антивирус?',
+                     answer: 'Антивирус уже входит в ваш тариф, вы можете подключить от одного до трёх устройств.',
+                     reviewSent: null
+                  },
+               ]
+            },
+            {
+               title: 'Скидки близким',
+               question: [
+                  {
+                     id: 18,
+                     question: '- Как подключить всю семью к Мегафону со скидкой 40%?',
+                     answer: 'Абоненты тарифов «Объединяй» могут подключить своих близких к тарифу «Без переплат.Всё» со скидкой 40% навсегда. Оплата каждой дополнительной sim  карты производится отдельно.  Для получения дополнительной информации и подключения: <br>' +
+                        '1. Позвоните по номеру 8 800 550-00-01.<br>' +
+                        '2. Закажите SIM-карту (максимум — 10 штук) с тарифом «Без переплат. Всё».<br>' +
+                        '3. Дождитесь сотрудника с SIM-картой и заявлением о переносе номера, если необходимо его сохранить.',
                      reviewSent: null
                   },
                ]
@@ -199,9 +356,22 @@ export default {
       }
    },
    methods: {
-      checkOptions(option) {
-         option ? this.activeTab = false : this.activeTab = true
+      clickCopy() { // копировать ссылку
+         this.showMessCopy = true
+         setTimeout(() => {
+            this.showMessCopy = false
+         }, 2500)
       }
+   },
+   mounted() {
+      let arr = document.querySelectorAll('.btns-question__share')
+      window.addEventListener('click', function (e) {
+         arr.forEach(el => { // показать кнопку копировать
+            if (e.target !== el) {
+               el.childNodes[0].classList.remove('show')
+            } else el.childNodes[0].classList.add('show')
+         })
+      })
    }
 }
 </script>
@@ -221,7 +391,6 @@ body {
    font-family: 'Source Sans Pro', sans-serif;
    color: #333333;
    background-color: #EDEDED;
-
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -239,8 +408,9 @@ h6 {
 }
 
 header {
-   margin-bottom: 51px;
    background-color: #fff;
+   position: relative;
+   box-shadow: 0 0 15px #00000026;
 
    .wrapper {
       height: 70px;
@@ -272,25 +442,36 @@ header {
 
 }
 
+.section-1 {
+   padding-bottom: 31px;
+}
+
 .big-title {
-   text-align: center;
-   padding: 0 30px;
-   margin-bottom: 50px;
+   margin-bottom: 28px;
+   background-color: #fff;
 
    h1 {
       font-size: 52px;
       line-height: 56px;
       font-weight: 900;
-      color: #00B956;
+      max-width: 760px;
+      padding: 42px 0 25px;
    }
+}
+
+.FAQ h2 {
+   font-size: 24px;
+   margin-bottom: 16px;
 }
 
 .tab-content {
    padding: 30px 40px;
    background-color: #fff;
-   margin-bottom: 52px;
+   margin-bottom: 23px;
 
    &__questions {
+      border-top: 1px solid #D9D9D9;
+
       h3 {
          font-size: 24px;
          line-height: 69px;
@@ -305,7 +486,7 @@ header {
          margin: 0;
          display: flex;
          align-items: center;
-         height: 79px;
+         min-height: 79px;
       }
 
       .toggle {
@@ -313,10 +494,10 @@ header {
          width: 20px;
          height: 20px;
          background: url('./assets/svg/downarrow_121316.svg') center / 13px no-repeat;
-         transition: .5s;
          opacity: .7;
          transform: rotateX(20deg);
          margin-left: auto;
+         flex-shrink: 0;
       }
 
       p.not-collapsed .toggle {
@@ -346,24 +527,66 @@ header {
 
          .collapse.show {
 
-            .close-question {
-               width: 17px;
-               height: 17px;
-               background: url('./assets/svg/cross.svg') center / cover no-repeat;
+            .btns-question {
                position: absolute;
                top: 15px;
                right: 17px;
                transition: .1s;
                opacity: 0;
                visibility: hidden;
+               display: flex;
+               cursor: auto;
+
+               &__share {
+                  width: 17px;
+                  height: 17px;
+                  background: url('./assets/svg/share.svg') center / 12px no-repeat;
+                  margin-right: 33px;
+                  cursor: pointer;
+                  position: relative;
+
+                  &_copy {
+                     height: 53px;
+                     width: 198px;
+                     border-radius: 9px;
+                     padding-left: 42px;
+                     position: absolute;
+                     display: flex;
+                     align-items: center;
+                     z-index: 1;
+                     right: 0;
+                     top: -20px;
+                     box-shadow: 0 0 15px #00000026;
+                     background: #fff url('./assets/svg/copy.svg') 15px center / 18.4px no-repeat;
+                     opacity: 0;
+                     visibility: hidden;
+                  }
+
+                  &_copy.show {
+                     opacity: 1;
+                     visibility: visible;
+                  }
+               }
+
+               &__close {
+                  width: 17px;
+                  height: 17px;
+                  background: url('./assets/svg/cross.svg') center / cover no-repeat;
+                  cursor: pointer;
+                  opacity: .5;
+               }
             }
 
             &:last-child {
                margin-bottom: 15px;
             }
 
-            span.not-collapsed + .close-question {
-               opacity: .5;
+            span.not-collapsed {
+               padding-right: 70px;
+            }
+
+            span.not-collapsed + .btns-question {
+               opacity: 1;
                visibility: visible;
             }
 
@@ -387,6 +610,9 @@ header {
                display: inline-block;
                margin: 15px 0 40px;
 
+               a {
+                  color: #34AAF2;
+               }
             }
 
             .tab-content__collapse_asset {
@@ -410,7 +636,10 @@ header {
    }
 
    &__directions {
-      border-top: 1px solid #D9D9D9;
+
+      p {
+         padding: 25px 17px 28px 5px;
+      }
 
       .collapse__img {
          display: block;
@@ -440,11 +669,53 @@ header {
    }
 }
 
+.copyMessage {
+   width: 343px;
+   line-height: 90px;
+   text-align: center;
+   border-radius: 9px;
+   background-color: #00B956;
+   color: #fff;
+   position: fixed;
+   left: calc(50% - 171px);
+   transition: .3s;
+   bottom: -90px;
+   opacity: 0;
+
+   &.show {
+      bottom: 50px;
+      opacity: 1;
+   }
+}
+
+.supports {
+   margin-bottom: 40px;
+
+   h2 {
+      font-size: 24px;
+      margin-bottom: 16px;
+   }
+
+   &__block {
+      background-color: #fff;
+      padding: 19px 41px;
+
+      a {
+         display: inline-block;
+         height: 24px;
+         line-height: 24px;
+         padding-left: 50px;
+         color: #34AAF2;
+         font-size: 16px;
+         background: #fff url('./assets/svg/Support-avatar_24.svg') 0 50% / contain no-repeat;
+      }
+   }
+}
+
 .copyright {
    font-size: 12px;
    line-height: 16px;
    max-width: 548px;
-   margin-bottom: 25px;
 
    a {
       color: #34AAF2;
@@ -454,7 +725,6 @@ header {
 
 @media (max-width: 767px) {
    header {
-      margin-bottom: 21px;
 
       .wrapper {
          height: 64px;
@@ -484,21 +754,27 @@ header {
 
    .big-title {
       padding: 0;
-      margin-bottom: 22px;
+      margin-bottom: 35px;
 
       h1 {
+         padding: 30px 0 25px;
          font-size: 30px;
          line-height: 36px;
-         font-weight: 900;
-         color: #00B956;
       }
+   }
+
+   h2 {
+      font-size: 19px !important;
    }
 
    .tab-content {
       background-color: transparent;
       padding: 0;
+      margin-bottom: 43px;
+
 
       &__questions {
+         border-top: 0;
 
          h3 {
             font-size: 19px;
@@ -526,9 +802,9 @@ header {
 
          p {
             font-size: 16px;
-            padding: 0 20px 0 15px;
+            padding: 10px 20px 10px 15px;
             margin: 0;
-            height: 61px;
+            min-height: 61px;
          }
 
          .tab-content__collapse_answer {
@@ -577,6 +853,23 @@ header {
                max-height: 30px;
             }
          }
+      }
+   }
+
+   .copyMessage {
+      width: calc(100% - 30px);
+      left: 15px;
+
+      &.show {
+         bottom: 30px;
+      }
+   }
+
+   .supports__block {
+      padding: 19px 17px;
+
+      a {
+         padding-left: 44px;
       }
    }
 
