@@ -391,11 +391,13 @@ export default {
 @import "./assets/fonts/SourceSansPro/stylesheet.css";
 // шрифт
 @import "./assets/scss/null.scss"; // обнуление
+@import "./assets/scss/colors.scss"; // цвета
 
 body {
    font-family: 'Source Sans Pro', sans-serif;
    color: #333333;
    background-color: #EDEDED;
+   border: 3px solid var(--color-3);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -519,7 +521,7 @@ header {
             > span {
                display: inline-block;
                cursor: pointer;
-               color: #34AAF2;
+               color: var(--text-blue);
                line-height: 18px;
                padding-right: 20px;
             }
@@ -565,6 +567,7 @@ header {
                      background: #fff url('./assets/svg/copy.svg') 15px center / 18.4px no-repeat;
                      opacity: 0;
                      visibility: hidden;
+                     cursor: pointer;
                   }
 
                   &_copy.show {
@@ -616,13 +619,13 @@ header {
                margin: 15px 0 40px;
 
                a {
-                  color: #34AAF2;
+                  color: var(--text-blue);
                }
             }
 
             .tab-content__collapse_asset {
                span {
-                  color: #34AAF2;
+                  color: var(--text-blue);
                   cursor: pointer;
 
                   &:nth-child(1) {
@@ -662,7 +665,7 @@ header {
          padding: 15px 16px;
 
          a {
-            color: #34AAF2;
+            color: var(--text-blue);
             margin-right: 5px;
          }
 
@@ -679,7 +682,7 @@ header {
    line-height: 90px;
    text-align: center;
    border-radius: 9px;
-   background-color: #00B956;
+   background-color: var(--mf-green);
    color: #fff;
    position: fixed;
    left: calc(50% - 171px);
@@ -710,7 +713,7 @@ header {
          height: 24px;
          line-height: 24px;
          padding-left: 50px;
-         color: #34AAF2;
+         color: var(--text-blue);
          font-size: 16px;
          background: #fff url('./assets/svg/Support-avatar_24.svg') 0 50% / contain no-repeat;
       }
@@ -723,7 +726,7 @@ header {
    max-width: 548px;
 
    a {
-      color: #34AAF2;
+      color: var(--text-blue);
    }
 }
 
