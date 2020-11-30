@@ -51,11 +51,15 @@
                                  {{ question.question }}
                               </span>
                                  <div class="btns-question">
-                                    <div class="btns-question__share">
-                                       <div @click="clickCopy(question.id)"
-                                            class="btns-question__share_copy">
-                                          Копировать ссылку
-                                       </div>
+                                    <div tabindex="0"
+                                         @focus="focusShare(question.id)"
+                                         @blur="blurShare(question.id)"
+                                         class="btns-question__share">
+                                    </div>
+                                    <div tabindex="0" @mousedown="clickCopy(question.id)"
+                                         :class="{show: share[question.id]}"
+                                         class="btns-question__share_copy">
+                                       Копировать ссылку
                                     </div>
                                     <div v-b-toggle="'collapseFAQ-2-' + question.id" class="btns-question__close"></div>
                                  </div>
@@ -136,7 +140,7 @@ export default {
 
    data() {
       return {
-         closePlaceCopy: [],
+         share: [],
          showMessCopy: false,
          activeTab: true,
          reviewSent: false,
@@ -356,23 +360,22 @@ export default {
       }
    },
    methods: {
-      clickCopy() { // копировать ссылку
+      clickCopy(id) { // копировать ссылку
          this.showMessCopy = true
+         this.share[id] = false
          setTimeout(() => {
             this.showMessCopy = false
          }, 2500)
+      },
+      focusShare(id) { // показать кнопку копировать
+         this.share[id] = true
+         this.share = Object.assign([], this.share)
+      },
+      blurShare(id) { // скрыть кнопку копировать
+         this.share[id] = false
+         this.share = Object.assign([], this.share)
       }
    },
-   mounted() {
-      let arr = document.querySelectorAll('.btns-question__share')
-      window.addEventListener('click', function (e) {
-         arr.forEach(el => { // показать кнопку копировать
-            if (e.target !== el) {
-               el.childNodes[0].classList.remove('show')
-            } else el.childNodes[0].classList.add('show')
-         })
-      })
-   }
 }
 </script>
 
