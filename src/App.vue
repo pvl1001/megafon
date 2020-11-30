@@ -81,7 +81,9 @@
                      </div>
                   </div>
                </div>
-               <div :class="{ show: showMessCopy }" class="copyMessage">Ссылка скопирована в буфер обмена</div>
+               <div :class="{ show: showMessCopy }" class="copyMessage">
+                  <b>Ссылка скопирована в буфер обмена</b>
+               </div>
             </div>
             <div v-if="!activeTab" class="tab-content">
                <div class="tab-content__directions">
