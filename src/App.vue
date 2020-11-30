@@ -44,13 +44,17 @@
                                  </div>
                                  <b-collapse :id="'collapseFAQ-2-' +  question.id" class="tab-content__collapse_answer">
                                     <span v-html="question.answer"></span>
-                                    <div v-if="!question.reviewSent" class="tab-content__collapse_asset">
+                                    <div v-if="question.reviewSent === null" class="tab-content__collapse_asset">
                                        <span>Информация была полезной?</span>
-                                       <span @click="question.reviewSent = !question.reviewSent">Да</span>
-                                       <span @click="question.reviewSent = !question.reviewSent">Нет</span>
+                                       <span @click="question.reviewSent = true">Да</span>
+                                       <span @click="question.reviewSent = false">Нет</span>
                                     </div>
-                                    <div v-if="question.reviewSent" class="tab-content__collapse_asset">
+                                    <div v-else-if="question.reviewSent === true" class="tab-content__collapse_asset">
                                        <span>Отзыв отправлен. Спасибо!</span>
+                                    </div>
+                                    <div v-else class="tab-content__collapse_asset">
+                                       <span>Еще есть вопросы?</span>
+                                       <span class="">Отправить вопрос</span>
                                     </div>
                                  </b-collapse>
                               </div>
@@ -120,7 +124,6 @@ export default {
          share: [],
          showMessCopy: false,
          activeTab: true,
-         reviewSent: false,
          questions: [
             {
                title: 'Оплата, баланс, счет',
@@ -337,6 +340,8 @@ export default {
       }
    },
    methods: {
+      // reviewSent() {
+      // },
       clickCopy(id) { // копировать ссылку
          this.showMessCopy = true
          this.share[id] = false
@@ -568,8 +573,8 @@ h6 {
                      cursor: initial;
                   }
 
-                  &:nth-child(2) {
-                     margin-right: 11px;
+                  &:nth-child(3) {
+                     margin-left: 11px;
                   }
                }
             }
@@ -711,8 +716,8 @@ h6 {
                margin-right: 0 !important;
             }
 
-            span:nth-child(2) {
-               margin-right: 56px !important;
+            span:nth-child(3) {
+               margin-left: 56px !important;
             }
 
          }
